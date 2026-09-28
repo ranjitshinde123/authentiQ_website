@@ -48,7 +48,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
           <h4>Quick Links</h4>
           <ul className="footer-links">
             <li><a href="#home">Home</a></li>
-            <li><a href="#goals"></a></li>
+            <li><a href="#goals">Shop by Goal</a></li>
             <li><a href="#leadership">Founders & Leadership</a></li>
             <li><a href="#about">About Company</a></li>
             <li><a href="#contact">Contact Support</a></li>
