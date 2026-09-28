@@ -94,8 +94,8 @@ const MainApp: React.FC = () => {
           onOpenModal={handleOpenProductModal}
         />
         <ReviewsSlider />
-        <About />
         <Leadership />
+        <About />
       </main>
 
       <Footer onSelectCategory={handleCategoryChange} />
