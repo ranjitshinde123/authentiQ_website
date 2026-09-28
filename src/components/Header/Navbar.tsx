@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {
-  ShieldCheck,
   Sun,
   Moon,
   User,
@@ -17,6 +16,7 @@ import {
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+import { Logo } from '../UI/Logo';
 
 interface NavbarProps {
   onOpenSearch: () => void;
@@ -77,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
           </button>
 
           <a href="#home" className="logo" onClick={(e) => handleNavClick(e, 'home')}>
-            <ShieldCheck color="#001a9c" size={28} /> authenti<span>Q</span>
+            <Logo size={32} />
           </a>
 
           {/* Desktop Navigation Links */}
@@ -150,7 +150,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
       <div className={`mobile-nav-drawer ${isMobileMenuOpen ? 'active' : ''}`}>
         <div className="mobile-drawer-header">
           <div className="mobile-drawer-logo">
-            <ShieldCheck color="#001a9c" size={24} /> authenti<span>Q</span>
+            <Logo size={26} />
           </div>
           <button
             className="mobile-drawer-close"

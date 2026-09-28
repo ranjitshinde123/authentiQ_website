@@ -1,5 +1,6 @@
 import React from 'react';
 import { Newsletter } from './Newsletter';
+import { Logo } from '../UI/Logo';
 
 interface FooterProps {
   onSelectCategory: (category: string) => void;
@@ -10,8 +11,8 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
     <footer>
       <div className="footer-grid">
         <div className="footer-col">
-          <a href="#home" className="logo" style={{ marginBottom: '1rem' }}>
-            authenti<span>Q</span>
+          <a href="#home" className="logo" style={{ marginBottom: '1rem', display: 'inline-block' }}>
+            <Logo size={32} />
           </a>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
             Premium nutrition engineered for athletes and active individuals. Pure ingredients, full transparency.

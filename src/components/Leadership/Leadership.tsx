@@ -74,7 +74,7 @@ const slides: LeaderSlide[] = [
       }
     ],
     bullets: [
-      'With 18+ years in pharmaceutical manufacturing as a Manufacturing Head, quality and precision have always been at the core of my work.',
+      'With 18+ years in pharmaceutical manufacturing, including leadership as a Manufacturing Head, quality and precision have always been at the core of my work.',
       'With 15+ years of passion for fitness and bodybuilding, I have lived the discipline and demands of the fitness journey firsthand.',
       'After facing a major health setback and making my own comeback, my perspective on health and supplementation changed forever.',
       'authentiQ was born from that experience—to bring pharmaceutical-grade discipline, fitness-driven understanding, and genuine trust into every product we create.'

@@ -63,7 +63,7 @@ export const NewRelease: React.FC<NewReleaseProps> = ({ onOpenModal }) => {
               Explore Science
             </button>
             <button className="btn-secondary" onClick={handleAddToCart}>
-              Add to Cart - ₹2,999
+              Add to Cart - ₹{shredFactor ? shredFactor.price.toLocaleString('en-IN') : '1,299'}
             </button>
           </div>
         </div>

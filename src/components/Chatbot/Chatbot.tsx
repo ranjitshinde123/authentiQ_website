@@ -106,7 +106,7 @@ export const Chatbot: React.FC<ChatbotProps> = ({ onOpenProductModal }) => {
 
     if (text.includes('price') || text.includes('cost') || text.includes('discount') || text.includes('offer')) {
       return {
-        text: "🏷️ **Special Offers**: Enjoy flat introductory discounts across our full range (e.g. Creatine at ₹1,299, Pre-Workout at ₹2,499, Whey at ₹4,999). Subscribe to the **Inno Circle** newsletter at the footer for early VIP promo codes!"
+        text: "🏷️ **Direct Pricing**: Check out our official formulations (e.g. Creatine at ₹1,099, Pre-Workout at ₹2,999, Shred Factor at ₹1,299, Mass Gainer at ₹3,999, Whey Protein at ₹10,500). Subscribe to our newsletter at the footer for early updates!"
       };
     }
 
