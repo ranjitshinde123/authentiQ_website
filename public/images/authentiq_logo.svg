@@ -1,7 +1,7 @@
 <svg width="400" height="240" viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="metallicSteel" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="0%" stop-color="#ffffff" />
       <stop offset="20%" stop-color="#e2e8f0" />
       <stop offset="45%" stop-color="#cbd5e1" />
       <stop offset="65%" stop-color="#ffffff" />
@@ -23,14 +23,14 @@
 
   <!-- Stylized Circular C-Ring -->
   <path
-    d="M 200 25 C 163.5 25 134 54.5 134 91 C 134 127.5 163.5 157 200 157 C 215.8 157 230.2 151.4 241.5 142.3 L 221.7 122.5 C 215.6 127.2 208.1 130 200 130 C 178.5 130 161 112.5 161 91 C 161 69.5 178.5 52 200 52 C 219.8 52 236.2 66.9 238.6 86.2 L 265.8 86.2 C 263.2 51.7 234.7 25 200 25 Z"
+    d="M 188 106.5 L 188 123 A 51 51 0 1 1 235.1 91.5 L 216.5 91.5 A 34.5 34.5 0 1 0 188 106.5 Z"
     fill="url(#metallicSteel)"
     filter="url(#metalShadow)"
   />
 
-  <!-- Stylized Checkmark / Q-Tail -->
+  <!-- Floating Checkmark / Right Sign - Clear gap, does NOT touch circle -->
   <path
-    d="M 185 88 L 207.5 110.5 L 257 52 L 275 68.5 L 209 148 L 167 106 Z"
+    d="M 192.5 96 L 219.5 123 L 273.5 69 L 261.8 57.3 L 219.5 99.6 L 204.2 84.3 Z"
     fill="url(#metallicSteel)"
     filter="url(#metalShadow)"
   />
@@ -38,7 +38,7 @@
   <!-- Wordmark "authentiQ" -->
   <text
     x="200"
-    y="208"
+    y="200"
     font-family="'Barlow', 'Space Grotesk', -apple-system, sans-serif"
     font-size="46"
     font-weight="700"
@@ -46,5 +46,5 @@
     fill="url(#metallicText)"
     text-anchor="middle"
     filter="url(#metalShadow)"
-  >authenti<tspan fill="#e63946">Q</tspan></text>
+  >authentiQ</text>
 </svg>

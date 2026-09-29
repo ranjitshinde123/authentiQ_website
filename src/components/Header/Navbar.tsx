@@ -77,7 +77,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
           </button>
 
           <a href="#home" className="logo" onClick={(e) => handleNavClick(e, 'home')}>
-            <Logo size={32} />
+            <Logo size={58} height={58} />
           </a>
 
           {/* Desktop Navigation Links */}
@@ -150,7 +150,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
       <div className={`mobile-nav-drawer ${isMobileMenuOpen ? 'active' : ''}`}>
         <div className="mobile-drawer-header">
           <div className="mobile-drawer-logo">
-            <Logo size={26} />
+            <Logo size={46} height={46} />
           </div>
           <button
             className="mobile-drawer-close"

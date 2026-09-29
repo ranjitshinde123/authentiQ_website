@@ -12,7 +12,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
       <div className="footer-grid">
         <div className="footer-col">
           <a href="#home" className="logo" style={{ marginBottom: '1rem', display: 'inline-block' }}>
-            <Logo size={32} />
+            <Logo size={70} height={70} />
           </a>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
             Premium nutrition engineered for athletes and active individuals. Pure ingredients, full transparency.

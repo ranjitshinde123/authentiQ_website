@@ -1,5 +1,5 @@
-import React, { useRef } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
+import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import { Product } from '../../types';
 import { ProductCard } from './ProductCard';
 
@@ -17,6 +17,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   onOpenModal
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const autoPlayTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const filteredProducts = selectedCategory === 'all'
     ? products
@@ -24,15 +26,33 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
 
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -280, behavior: 'smooth' });
+      scrollContainerRef.current.scrollBy({ left: -300, behavior: 'smooth' });
     }
   };
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 280, behavior: 'smooth' });
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      if (scrollLeft + clientWidth >= scrollWidth - 20) {
+        // Loop back to start
+        scrollContainerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        scrollContainerRef.current.scrollBy({ left: 300, behavior: 'smooth' });
+      }
     }
   };
+
+  // 3-Second (3000ms) Auto-scroll from Right to Left
+  useEffect(() => {
+    if (isAutoPlaying) {
+      autoPlayTimerRef.current = setInterval(() => {
+        scrollRight();
+      }, 3000);
+    }
+    return () => {
+      if (autoPlayTimerRef.current) clearInterval(autoPlayTimerRef.current);
+    };
+  }, [isAutoPlaying, filteredProducts]);
 
   return (
     <section id="products" className="compact-bestsellers-section">
@@ -49,6 +69,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
             className="compact-arrow-btn"
             onClick={scrollLeft}
             aria-label="Scroll products left"
+            title="Previous products"
           >
             <ChevronLeft size={20} />
           </button>
@@ -56,8 +77,17 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
             className="compact-arrow-btn"
             onClick={scrollRight}
             aria-label="Scroll products right"
+            title="Next products"
           >
             <ChevronRight size={20} />
+          </button>
+          <button
+            className="compact-arrow-btn play-toggle"
+            onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+            aria-label={isAutoPlaying ? 'Pause 3s auto-scroll' : 'Resume 3s auto-scroll'}
+            title={isAutoPlaying ? 'Pause 3s auto-scroll' : 'Play 3s auto-scroll'}
+          >
+            {isAutoPlaying ? <Pause size={14} /> : <Play size={14} />}
           </button>
         </div>
       </div>
@@ -96,8 +126,13 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
         </button>
       </div>
 
-      {/* Single-Line Horizontal Product Track */}
-      <div className="compact-products-track" ref={scrollContainerRef}>
+      {/* Single-Line Horizontal Product Track with 3-Second Auto-Movement */}
+      <div
+        className="compact-products-track"
+        ref={scrollContainerRef}
+        onMouseEnter={() => setIsAutoPlaying(false)}
+        onMouseLeave={() => setIsAutoPlaying(true)}
+      >
         {filteredProducts.map(product => (
           <ProductCard
             key={product.id}

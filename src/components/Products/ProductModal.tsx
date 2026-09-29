@@ -147,7 +147,6 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) 
             </li>
           ))}
         </ul>
-
         <button className="add-to-cart-btn-modal" onClick={handleAddToCart}>
           <ShoppingCart size={18} /> Add to Cart - ₹{product.price.toLocaleString('en-IN')}
         </button>
