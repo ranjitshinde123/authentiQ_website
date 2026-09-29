@@ -4,9 +4,11 @@ import { Navbar } from './Navbar';
 
 interface HeaderProps {
   onOpenSearch: () => void;
+  currentPage?: 'home' | 'about';
+  onNavigate?: (page: 'home' | 'about', sectionId?: string) => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenSearch }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenSearch, currentPage = 'home', onNavigate }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -25,7 +27,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch }) => {
   return (
     <header className={`site-header ${isScrolled ? 'scrolled' : ''}`}>
       <AnnouncementBar />
-      <Navbar onOpenSearch={onOpenSearch} />
+      <Navbar
+        onOpenSearch={onOpenSearch}
+        currentPage={currentPage}
+        onNavigate={onNavigate}
+      />
     </header>
   );
 };
+

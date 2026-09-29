@@ -20,9 +20,11 @@ import { Logo } from '../UI/Logo';
 
 interface NavbarProps {
   onOpenSearch: () => void;
+  currentPage?: 'home' | 'about';
+  onNavigate?: (page: 'home' | 'about', sectionId?: string) => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
+export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch, currentPage = 'home', onNavigate }) => {
   const { theme, toggleTheme } = useTheme();
   const { userAccount, openLoginModal } = useAuth();
   const { totalItems, toggleCart } = useCart();
@@ -48,17 +50,40 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
   }, [isMobileMenuOpen]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
     setIsMobileMenuOpen(false);
-    const targetElement = document.getElementById(targetId);
-    if (targetElement) {
-      e.preventDefault();
-      const headerOffset = 75;
-      const elementPosition = targetElement.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+
+    if (targetId === 'about') {
+      if (onNavigate) {
+        onNavigate('about');
+      } else {
+        window.location.hash = '#about-page';
+      }
+      return;
+    }
+
+    if (currentPage === 'about') {
+      if (onNavigate) {
+        onNavigate('home', targetId);
+      } else {
+        window.location.hash = `#${targetId}`;
+      }
+    } else {
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        const headerOffset = 75;
+        const elementPosition = targetElement.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      } else if (targetId === 'home') {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
     }
   };
 
@@ -86,7 +111,15 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
             <li><a href="#goals" onClick={(e) => handleNavClick(e, 'goals')}>WHY AUTHENTIQ</a></li>
             <li><a href="#products" onClick={(e) => handleNavClick(e, 'products')}>PRODUCTS</a></li>
             <li><a href="#leadership" onClick={(e) => handleNavClick(e, 'leadership')}>FOUNDERS</a></li>
-            <li><a href="#about" onClick={(e) => handleNavClick(e, 'about')}>ABOUT</a></li>
+            <li>
+              <a
+                href="#about-page"
+                className={currentPage === 'about' ? 'active-about' : ''}
+                onClick={(e) => handleNavClick(e, 'about')}
+              >
+                ABOUT
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -206,8 +239,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenSearch }) => {
               </a>
             </li>
             <li>
-              <a href="#about" onClick={(e) => handleNavClick(e, 'about')}>
-                <span>About Company & HQ</span>
+              <a
+                href="#about-page"
+                className={currentPage === 'about' ? 'mobile-active-about' : ''}
+                onClick={(e) => handleNavClick(e, 'about')}
+              >
+                <span style={{ fontWeight: currentPage === 'about' ? 700 : 500 }}>About Us & Story</span>
                 <ChevronRight size={16} />
               </a>
             </li>

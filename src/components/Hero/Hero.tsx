@@ -1,6 +1,10 @@
 import React from 'react';
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  onNavigateAbout?: () => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onNavigateAbout }) => {
   return (
     <section className="hero" id="home">
       <a href="#products" className="hero-overlay-link" aria-label="Shop Bestsellers"></a>
@@ -12,7 +16,18 @@ export const Hero: React.FC = () => {
         </p>
         <div className="hero-btns">
           <a href="#products" className="btn-primary">Explore Formulations</a>
-          <a href="#about" className="btn-secondary">About AuthentIQ</a>
+          <a
+            href="#about-page"
+            className="btn-secondary"
+            onClick={(e) => {
+              if (onNavigateAbout) {
+                e.preventDefault();
+                onNavigateAbout();
+              }
+            }}
+          >
+            About AuthentIQ
+          </a>
         </div>
       </div>
     </section>

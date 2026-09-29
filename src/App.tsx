@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
@@ -13,6 +13,7 @@ import { ProductModal } from './components/Products/ProductModal';
 import { ReviewsSlider } from './components/Reviews/ReviewsSlider';
 import { Leadership } from './components/Leadership/Leadership';
 import { About } from './components/About/About';
+import { AboutPage } from './components/About/AboutPage';
 import { Footer } from './components/Footer/Footer';
 import { CartDrawer } from './components/Modals/CartDrawer';
 import { SearchOverlay } from './components/Modals/SearchOverlay';
@@ -23,10 +24,65 @@ import { products } from './data/products';
 import { Product } from './types';
 
 const MainApp: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState<'home' | 'about'>('home');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [activeModalProductId, setActiveModalProductId] = useState<number | null>(null);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [customFilteredProducts, setCustomFilteredProducts] = useState<Product[] | null>(null);
+
+  // Sync state with URL hash on mount and hashchange
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash;
+      if (hash === '#about-page' || hash === '#about-us' || hash === '#about-leadership') {
+        setCurrentPage('about');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        setCurrentPage('home');
+        if (hash && hash !== '#home' && hash !== '#') {
+          const targetId = hash.replace('#', '');
+          setTimeout(() => {
+            const targetEl = document.getElementById(targetId);
+            if (targetEl) {
+              const headerOffset = 75;
+              const elementPosition = targetEl.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+              window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+          }, 80);
+        }
+      }
+    };
+
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  const handleNavigate = (page: 'home' | 'about', sectionId?: string) => {
+    if (page === 'about') {
+      window.location.hash = '#about-page';
+      setCurrentPage('about');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      setCurrentPage('home');
+      if (sectionId && sectionId !== 'home') {
+        window.location.hash = `#${sectionId}`;
+        setTimeout(() => {
+          const el = document.getElementById(sectionId);
+          if (el) {
+            const headerOffset = 75;
+            const elementPosition = el.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+          }
+        }, 80);
+      } else {
+        window.location.hash = '#home';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  };
 
   const handleOpenProductModal = (productId: number) => {
     setActiveModalProductId(productId);
@@ -78,27 +134,43 @@ const MainApp: React.FC = () => {
 
   return (
     <div className="app-root">
-      <Header onOpenSearch={() => setIsSearchOpen(true)} />
+      <Header
+        onOpenSearch={() => setIsSearchOpen(true)}
+        currentPage={currentPage}
+        onNavigate={handleNavigate}
+      />
 
       <main>
-        <Hero />
-        <Pillars />
-        <ShopByBenefit onSelectBenefit={handleSelectBenefit} />
-        <ShopByGoal onSelectGoal={handleSelectGoal} />
-        <NewRelease onOpenModal={handleOpenProductModal} />
+        {currentPage === 'about' ? (
+          <AboutPage
+            onNavigateHome={(sectionId) => handleNavigate('home', sectionId)}
+            onOpenModal={handleOpenProductModal}
+          />
+        ) : (
+          <>
+            <Hero onNavigateAbout={() => handleNavigate('about')} />
+            <Pillars />
+            <ShopByBenefit onSelectBenefit={handleSelectBenefit} />
+            <ShopByGoal onSelectGoal={handleSelectGoal} />
+            <NewRelease onOpenModal={handleOpenProductModal} />
 
-        <ProductCatalog
-          products={currentProductsList}
-          selectedCategory={selectedCategory}
-          onSelectCategory={handleCategoryChange}
-          onOpenModal={handleOpenProductModal}
-        />
-        <ReviewsSlider />
-        <Leadership />
-        <About />
+            <ProductCatalog
+              products={currentProductsList}
+              selectedCategory={selectedCategory}
+              onSelectCategory={handleCategoryChange}
+              onOpenModal={handleOpenProductModal}
+            />
+            <ReviewsSlider />
+            <Leadership />
+            <About />
+          </>
+        )}
       </main>
 
-      <Footer onSelectCategory={handleCategoryChange} />
+      <Footer
+        onSelectCategory={handleCategoryChange}
+        onNavigate={handleNavigate}
+      />
 
       <ProductModal
         product={selectedProduct}
